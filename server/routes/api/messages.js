@@ -6,7 +6,7 @@ const onlineUsers = require("../../onlineUsers");
 router.post("/", async (req, res, next) => {
   try {
     if (!req.user) {
-      return res.sendStatus(401);
+      return res.sendStatus(403);
     }
     const senderId = req.user.id;
     const { recipientId, text, conversationId, sender } = req.body;
