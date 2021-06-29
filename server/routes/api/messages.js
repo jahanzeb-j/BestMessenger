@@ -6,7 +6,7 @@ const onlineUsers = require("../../onlineUsers");
 router.post("/", async (req, res, next) => {
   try {
     if (!req.user) {
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
     const senderId = req.user.id;
     const { recipientId, text, conversationId, sender } = req.body;
@@ -16,7 +16,7 @@ router.post("/", async (req, res, next) => {
        // check if user in conversation with senderId
        const conversation = await Conversation.findByPk(conversationId);
        if(conversation.user1Id !== senderId && conversation.user2Id !== senderId) {
-         return res.sendStatus(401);
+         return res.sendStatus(403);
        }
        // create message now
       const message = await Message.create({ senderId, text, conversationId });
