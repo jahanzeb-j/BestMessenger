@@ -11,17 +11,24 @@ export const addMessageToStore = (state, payload) => {
     return [newConvo, ...state];
   }
 
-  return state.map((convo) => {
-    if (convo.id === message.conversationId) {
-      const convoCopy = { ...convo };
+     // checking existing convo
+      const existingConvo = state.find((convo) => convo.id === message.conversationId);
+      const convoCopy = { ...existingConvo };
+      // add new message to the convo if exist
+     if(existingConvo){
       convoCopy.messages.push(message);
+     
+      // update latest message also
       convoCopy.latestMessageText = message.text;
-
-      return convoCopy;
-    } else {
-      return convo;
-    }
-  });
+      state = state.filter((convo) => convo.id !== message.conversationId);
+    
+      //put this convo to the front of the list
+      return [convoCopy, ...state];
+      
+     } else {
+     return state;
+     }
+  
 };
 
 export const addOnlineUserToStore = (state, id) => {
