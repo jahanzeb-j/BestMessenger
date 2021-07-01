@@ -96,4 +96,30 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// update message isRead to True of selected Convo
+router.put("/:conversationId/read", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+
+    const conversationId = req.params.conversationId;
+    const userId = req.user.id;
+
+    await Message.update(
+      { isRead: true },
+      {
+        where: {
+          conversationId: conversationId,
+          [Op.not]: [{ senderId: userId }],
+        },
+      }
+    );
+
+    res.sendStatus(200);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
