@@ -6,6 +6,7 @@ export const addMessageToStore = (state, payload) => {
       id: message.conversationId,
       otherUser: sender,
       messages: [message],
+      unReadCount: message.senderId === sender.id ? 1 : null,
     };
     newConvo.latestMessageText = message.text;
     return [newConvo, ...state];
@@ -20,6 +21,16 @@ export const addMessageToStore = (state, payload) => {
        // update latest message also
        convoCopy.latestMessageText = message.text;
        state = state.filter((convo) => convo.id !== message.conversationId);
+
+       // count again unRead
+       // filter and count unRead Messages
+      const unreadMessages = convoCopy.messages.filter(
+        (message) =>
+          message.isRead === false &&
+          message.senderId === convoCopy.otherUser.id
+      );
+      // set unRead count
+      convoCopy.unReadCount = unreadMessages.length;
        //put this convo to the front of the list
        return [convoCopy, ...state];
      } else {
