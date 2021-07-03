@@ -114,9 +114,18 @@ export const onMessageRead = (conversationId) => async (dispatch) => {
   try {
     await axios.put(`/api/conversations/${conversationId}/read`);
     dispatch(setMessageRead(conversationId));
+
+    // emit read to socket
+    sendMessageRead(conversationId);
   } catch (error) {
     console.error(error);
   }
+};
+
+const sendMessageRead = (conversationId) => {
+  socket.emit("message-read", {
+    conversationId: conversationId,
+  });
 };
 
 export const searchUsers = (searchTerm) => async (dispatch) => {

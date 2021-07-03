@@ -96,7 +96,7 @@ export const addNewConvoToStore = (state, recipientId, message) => {
     }
   });
 };
-// updating state unread count and messages to false
+// updating state unread count and messages to true
 export const setMessageReadFunc = (state, conversationId) => {
   return state.map((convo) => {
     if (convo.id === conversationId) {
@@ -104,7 +104,7 @@ export const setMessageReadFunc = (state, conversationId) => {
       convoCopy.unReadCount = 0;
       // set message to false
       convoCopy.messages.map((message) => {
-        message.isRead = true;
+        if (message.senderId === convoCopy.otherUser.id) message.isRead = true;
       });
       return convoCopy;
     } else {

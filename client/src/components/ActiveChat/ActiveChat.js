@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexGrow: 8,
-    flexDirection: "column"
+    flexDirection: "column",
   },
   chatContainer: {
     marginLeft: 41,
@@ -16,14 +16,14 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   userAvatar: {
     height: 15,
     width: 15,
     top: "0.2em",
-    marginLeft: "auto"
-  }
+    marginLeft: "auto",
+  },
 }));
 
 const ActiveChat = (props) => {
@@ -45,7 +45,18 @@ const ActiveChat = (props) => {
               otherUser={conversation.otherUser}
               userId={user.id}
             />
-            { <Avatar className={classes.userAvatar} alt={conversation.otherUser.username} src={conversation.otherUser.photoUrl}></Avatar> }
+            {conversation.messages.filter(
+              (message) =>
+                message.isRead === false && message.senderId === user.id
+            ).length < 1 ? (
+              <Avatar
+                className={classes.userAvatar}
+                alt={conversation.otherUser.username}
+                src={conversation.otherUser.photoUrl}
+              ></Avatar>
+            ) : (
+              <Box></Box>
+            )}
             <Input
               otherUser={conversation.otherUser}
               conversationId={conversation.id}
@@ -64,8 +75,9 @@ const mapStateToProps = (state) => {
     conversation:
       state.conversations &&
       state.conversations.find(
-        (conversation) => conversation.otherUser.username === state.activeConversation
-      )
+        (conversation) =>
+          conversation.otherUser.username === state.activeConversation
+      ),
   };
 };
 
