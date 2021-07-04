@@ -28,7 +28,7 @@ export const addMessageToStore = (state, payload) => {
     // filter and count unRead Messages
     const unreadMessages = convoCopy.messages.filter(
       (message) =>
-        message.isRead === false && message.senderId === convoCopy.otherUser.id
+        !message.isRead && message.senderId === convoCopy.otherUser.id
     );
     // set unRead count
     convoCopy.unReadCount = unreadMessages.length;
