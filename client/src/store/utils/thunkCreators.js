@@ -123,9 +123,7 @@ export const onMessageRead = (conversationId) => async (dispatch) => {
 };
 
 const sendMessageRead = (conversationId) => {
-  socket.emit("message-read", {
-    conversationId: conversationId,
-  });
+  socket.emit("message-read", { conversationId });
 };
 
 export const searchUsers = (searchTerm) => async (dispatch) => {
