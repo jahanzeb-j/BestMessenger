@@ -103,7 +103,7 @@ router.put("/:conversationId/read", async (req, res, next) => {
       return res.sendStatus(401);
     }
 
-    const conversationId = req.params.conversationId;
+    const { conversationId } = req.params;
     const userId = req.user.id;
 
     await Message.update(
