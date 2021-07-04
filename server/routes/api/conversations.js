@@ -77,7 +77,7 @@ router.get("/", async (req, res, next) => {
       // filter and count unRead Messages
       const unreadMessages = convoJSON.messages.filter(
         (message) =>
-          message.isRead === false &&
+          !message.isRead &&
           message.senderId === convoJSON.otherUser.id
       );
       // set unRead count
