@@ -48,15 +48,13 @@ const ActiveChat = (props) => {
             {conversation.messages.filter(
               (message) =>
                 message.isRead === false && message.senderId === user.id
-            ).length < 1 ? (
+            ).length < 1 && (
               <Avatar
                 className={classes.userAvatar}
                 alt={conversation.otherUser.username}
                 src={conversation.otherUser.photoUrl}
               ></Avatar>
-            ) : (
-              <Box></Box>
-            )}
+            ) }
             <Input
               otherUser={conversation.otherUser}
               conversationId={conversation.id}
