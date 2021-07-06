@@ -47,7 +47,7 @@ const ActiveChat = (props) => {
               otherUser={conversation.otherUser}
               userId={user.id}
             />
-            { unreadMessages == 0 && (
+            { unreadMessages.length === 0 && (
               <Avatar
                 className={classes.userAvatar}
                 alt={conversation.otherUser.username}
