@@ -30,8 +30,9 @@ const ActiveChat = (props) => {
   const classes = useStyles();
   const { user } = props;
   const conversation = props.conversation || {};
-  const unreadMessages = conversation.messages?.filter((message) => !message.isRead && message.senderId === user.id);
-
+  const unreadMessages = conversation.messages?.filter(
+    (message) => !message.isRead && message.senderId === user.id
+  );
 
   return (
     <Box className={classes.root}>
@@ -47,13 +48,13 @@ const ActiveChat = (props) => {
               otherUser={conversation.otherUser}
               userId={user.id}
             />
-            { unreadMessages.length === 0 && (
+            {unreadMessages.length === 0 && (
               <Avatar
                 className={classes.userAvatar}
                 alt={conversation.otherUser.username}
                 src={conversation.otherUser.photoUrl}
               ></Avatar>
-            ) }
+            )}
             <Input
               otherUser={conversation.otherUser}
               conversationId={conversation.id}
