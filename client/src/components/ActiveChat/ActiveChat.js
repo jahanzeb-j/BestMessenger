@@ -30,7 +30,7 @@ const ActiveChat = (props) => {
   const classes = useStyles();
   const { user } = props;
   const conversation = props.conversation || {};
-  const unreadMessages = conversation.messages && conversation.messages.filter((message) => !message.isRead && message.senderId === user.id);
+  const unreadMessages = conversation.messages?.filter((message) => !message.isRead && message.senderId === user.id);
 
 
   return (
