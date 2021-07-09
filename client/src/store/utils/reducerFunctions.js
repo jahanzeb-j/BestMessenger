@@ -103,7 +103,7 @@ export const setMessageReadFunc = (state, conversationId) => {
       const convoCopy = { ...convo };
       convoCopy.unReadCount = 0;
       // set message to true
-      convoCopy.messagees = convoCopy.messages.map((message) => {
+      convoCopy.messages = convoCopy.messages.map((message) => {
         if (message.senderId === convoCopy.otherUser.id) {
             message.isRead = true;
         }
