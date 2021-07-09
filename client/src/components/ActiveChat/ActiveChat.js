@@ -53,7 +53,7 @@ const ActiveChat = (props) => {
                 className={classes.userAvatar}
                 alt={conversation.otherUser.username}
                 src={conversation.otherUser.photoUrl}
-              ></Avatar>
+              />
             )}
             <Input
               otherUser={conversation.otherUser}
