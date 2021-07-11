@@ -16,7 +16,10 @@ export const addMessageToStore = (state, payload) => {
   const existingConvo = state.find(
     (convo) => convo.id === message.conversationId
   );
-  const convoCopy = { ...existingConvo };
+  const convoCopy = {
+    ...existingConvo,
+    messages: [...existingConvo.messages],
+  };
   // add new message to the convo if exist
   if (existingConvo) {
     convoCopy.messages.push(message);
@@ -103,9 +106,9 @@ export const setMessageReadFunc = (state, conversationId) => {
       const convoCopy = { ...convo };
       convoCopy.unReadCount = 0;
       // set message to true
-      convoCopy.messages = convoCopy.messages.map((message) => {
+      convoCopy.messages.map((message) => {
         if (message.senderId === convoCopy.otherUser.id) {
-            message.isRead = true;
+          message.isRead = true;
         }
       });
       return convoCopy;
