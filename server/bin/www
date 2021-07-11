@@ -42,8 +42,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("new-message", (data) => {
-    if (onlineUsers[data.recipientId]) {
-      socket.to(onlineUsers[data.recipientId]).emit("new-message", {
+    const onlineUser = onlineUsers[data.recipientId];
+    if (onlineUser) {
+      socket.to(onlineUser).emit("new-message", {
         message: data.message,
         sender: data.sender,
       });
