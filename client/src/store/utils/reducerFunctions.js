@@ -6,29 +6,40 @@ export const addMessageToStore = (state, payload) => {
       id: message.conversationId,
       otherUser: sender,
       messages: [message],
+      unReadCount: message.senderId === sender.id ? 1 : null,
     };
     newConvo.latestMessageText = message.text;
     return [newConvo, ...state];
   }
 
-     // checking existing convo
-      const existingConvo = state.find((convo) => convo.id === message.conversationId);
-      const convoCopy = { ...existingConvo };
-      // add new message to the convo if exist
-     if(existingConvo){
-      convoCopy.messages.push(message);
-     
-      // update latest message also
-      convoCopy.latestMessageText = message.text;
-      state = state.filter((convo) => convo.id !== message.conversationId);
-    
-      //put this convo to the front of the list
-      return [convoCopy, ...state];
-      
-     } else {
-     return state;
-     }
-  
+  // checking existing convo
+  const existingConvo = state.find(
+    (convo) => convo.id === message.conversationId
+  );
+  const convoCopy = {
+    ...existingConvo,
+    messages: [...existingConvo.messages],
+  };
+  // add new message to the convo if exist
+  if (existingConvo) {
+    convoCopy.messages.push(message);
+    // update latest message also
+    convoCopy.latestMessageText = message.text;
+    state = state.filter((convo) => convo.id !== message.conversationId);
+
+    // count again unRead
+    // filter and count unRead Messages
+    const unreadMessages = convoCopy.messages.filter(
+      (message) =>
+        !message.isRead && message.senderId === convoCopy.otherUser.id
+    );
+    // set unRead count
+    convoCopy.unReadCount = unreadMessages.length;
+    //put this convo to the front of the list
+    return [convoCopy, ...state];
+  } else {
+    return state;
+  }
 };
 
 export const addOnlineUserToStore = (state, id) => {
@@ -83,6 +94,24 @@ export const addNewConvoToStore = (state, recipientId, message) => {
       newConvo.messages.push(message);
       newConvo.latestMessageText = message.text;
       return newConvo;
+    } else {
+      return convo;
+    }
+  });
+};
+// updating state unread count and messages to true
+export const setMessageReadFunc = (state, conversationId) => {
+  return state.map((convo) => {
+    if (convo.id === conversationId) {
+      const convoCopy = { ...convo };
+      convoCopy.unReadCount = 0;
+      // set message to true
+      convoCopy.messages.map((message) => {
+        if (message.senderId === convoCopy.otherUser.id) {
+          message.isRead = true;
+        }
+      });
+      return convoCopy;
     } else {
       return convo;
     }

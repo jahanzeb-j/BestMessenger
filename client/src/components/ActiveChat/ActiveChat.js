@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box } from "@material-ui/core";
+import { Box, Avatar } from "@material-ui/core";
 import { Input, Header, Messages } from "./index";
 import { connect } from "react-redux";
 
@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexGrow: 8,
-    flexDirection: "column"
+    flexDirection: "column",
   },
   chatContainer: {
     marginLeft: 41,
@@ -16,14 +16,23 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-    justifyContent: "space-between"
-  }
+    justifyContent: "space-between",
+  },
+  userAvatar: {
+    height: 15,
+    width: 15,
+    top: "0.2em",
+    marginLeft: "auto",
+  },
 }));
 
 const ActiveChat = (props) => {
   const classes = useStyles();
   const { user } = props;
   const conversation = props.conversation || {};
+  const unreadMessages = conversation.messages?.filter(
+    (message) => !message.isRead && message.senderId === user.id
+  );
 
   return (
     <Box className={classes.root}>
@@ -39,6 +48,13 @@ const ActiveChat = (props) => {
               otherUser={conversation.otherUser}
               userId={user.id}
             />
+            {unreadMessages.length === 0 && (
+              <Avatar
+                className={classes.userAvatar}
+                alt={conversation.otherUser.username}
+                src={conversation.otherUser.photoUrl}
+              />
+            )}
             <Input
               otherUser={conversation.otherUser}
               conversationId={conversation.id}
@@ -57,8 +73,9 @@ const mapStateToProps = (state) => {
     conversation:
       state.conversations &&
       state.conversations.find(
-        (conversation) => conversation.otherUser.username === state.activeConversation
-      )
+        (conversation) =>
+          conversation.otherUser.username === state.activeConversation
+      ),
   };
 };
 
