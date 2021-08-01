@@ -1,6 +1,15 @@
-# Messenger
+# Best Messenger
 
 A one-to-one realtime chat app.
+
+<img src="https://github.com/jahanzeb-j/BestMessenger/blob/main/Screenshot-login.png" width="700">
+
+<img src="https://github.com/jahanzeb-j/BestMessenger/blob/main/Screenshot-home.png" width="700">
+
+## Technologies 
+- React + Redux
+- Node.js + Express + Sequalize
+- PostgreSQL
 
 ## Initial Setup
 
